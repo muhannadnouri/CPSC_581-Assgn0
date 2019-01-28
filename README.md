@@ -2,7 +2,7 @@
 CPSC 581 (Human-Interaction II) - Assignment 0
 
 # Deployment
-Site is deployed using Heroku at https://trumpbutton.herokuapp.com
+Site is deployed using Netlify at https://trumpbutton.netlify.com
 
 # License
 No license yet
