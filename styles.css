@@ -6,3 +6,16 @@
 .aligncenter {
     text-align: center;
 }
+
+body {
+    /* Image Source */
+    background-image: url("assets/American-Flag.jpg");
+
+    background-color: #cccccc;
+    background-repeat:no-repeat;
+    background-size:cover;
+
+    background-color: rgba(255, 255, 255, 0.4);
+    background-blend-mode: lighten;
+
+}
