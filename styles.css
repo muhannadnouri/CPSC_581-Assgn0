@@ -15,6 +15,7 @@ html, body{
 }
 
 /* Trump and Red Circle Styling */
+
 #trump, #red{
     position: absolute;
     width: 50%;
@@ -68,6 +69,92 @@ html, body{
     opacity: 0;
     pointer-events: none;
 }
+#brick{
+	opacity: 0;
+	position: absolute;
+	left: 650px;
+	top: 150px;
+	pointer-events: none;
+}
+#brick2{
+	opacity: 0;
+	position: absolute;
+	left: 850px;
+	top: 150px;
+	pointer-events: none;
+	
+}
+#brick3{
+	opacity: 0;
+	position: absolute;
+	left: 1050px;
+	top: 150px;
+	pointer-events: none;
+}
+#brick4{
+	opacity: 0;
+	position: absolute;
+	left: 650px;
+	top: 290px;
+	pointer-events: none;
+}
+#brick5{
+	opacity: 0;
+	position: absolute;
+	left: 850px;
+	top: 290px;
+	pointer-events: none;
+}
+#brick6{
+	opacity: 0;
+	position: absolute;
+	left: 1050px;
+	top: 290px;
+	pointer-events: none;
+}
+#brick7{
+	opacity: 0;
+	position: absolute;
+	left: 650px;
+	top: 430px;
+	pointer-events: none;
+	
+}
+#brick8{
+	opacity: 0;
+	position: absolute;
+	left: 850px;
+	top: 430px;
+	pointer-events: none;
+}
+#brick9{
+	opacity: 0;
+	position: absolute;
+	left: 1050px;
+	top: 430px;
+	pointer-events: none;
+}
+#brick10{
+	opacity: 0;
+	position: absolute;
+	left: 650px;
+	top: 570px;
+	pointer-events: none;
+}
+#brick11{
+	opacity: 0;
+	position: absolute;
+	left: 850px;
+	top: 570px;
+	pointer-events: none;
+}
+#brick12{
+	opacity: 0;
+	position: absolute;
+	left: 1050px;
+	top: 570px;
+	pointer-events: none;
+}
 
 /* Animate classes to add to birds in javascript */
 .animateFlyLeft {
@@ -76,6 +163,13 @@ html, body{
 
 .animateFlyRight {
     animation: flyRight 2s both linear;
+}
+.animatedropDown
+{
+	animation: dropDown 1s both linear;
+}
+.animatedropFurther {
+	animation: dropFurther 1s both linear;
 }
 
 /* Animation for Flying right */
@@ -100,4 +194,24 @@ html, body{
         transform: translateX(-150%) translateY(-100%);
         opacity: 0;
     }
+}
+@keyframes dropDown{
+	from{
+		opacity: 0;
+		transform:  translateY(-100%);
+	}
+	to{
+		opacity: 1;
+		transform:  translateY(0%);
+	}
+}
+@keyframes dropFurther{
+	from{
+		opacity:1;
+		transform: translateY(0);
+	}
+	to{
+		opacity:0;
+		transform: translateY(-100%);
+	}
 }

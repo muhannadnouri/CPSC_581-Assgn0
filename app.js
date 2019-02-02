@@ -17,6 +17,10 @@ var timeUpdateInterval = 1000;
 var totalClicks = 0;
 var clickCount = 0;
 
+var functionIsRunning = false;
+
+
+
 // Hover Triggers. Used for only triggering once when mouse enter or leaves image
 // For ensuring one execution of hover or unhover function when mouse transition from
 // transparent part of image to button part of image
@@ -38,22 +42,42 @@ function updateTime(){
 function idleTrump(){
     // Only Swap to Cheeto trump if there is no click on Trump
     if(clickCount == 0)
-        document.querySelector('#trump').src = 'assets/Trump_to_Cheeto_V2.gif';
+        document.querySelector('#trump').src = 'assets/Cheeto_Trump_gif.gif';
+		var audio = document.querySelector('#DarthTrump');
+        audio.pause();
+        audio.currentTime = 0;
+		audio.play();
 }
 
 //Action to Revert
 function normalTrump(){
-    document.querySelector('#trump').src = 'assets/Trump_Button_V2.png';
+    document.querySelector('#trump').src = 'assets/Bored_Trump_gif.gif';
 }
 
 // Hover Function
 function hoverTrump(){
     console.log('Hovered');
+	var audio = document.querySelector('#LoveChina');
+        audio.pause();
+        audio.currentTime = 0;
+		if(functionIsRunning == true)
+		{
+			audio.pause();
+		}
+		else{
+        audio.play();
+		}
+		document.querySelector('#trump').src = 'assets/Angry_Trump_gif.gif';
 }
 
 //UnHover Function
 function unHoverTrump(){
     console.log('UnHovered');
+	var audio = document.querySelector('#LoveChina');
+        audio.pause();
+        audio.currentTime = 0;
+		//document.querySelector('#trump').src = 'assets/Bored_Trump_gif.gif';
+
 }
 
 // Function for mouse move. Does Hover and cursor styling based on transparency
@@ -88,14 +112,84 @@ function mouseMove(event, element){
 
 //Right Click function
 function rightClick(event, element){
+	functionIsRunning = true;
+		var audio = document.querySelector('#LoveChina');
+        audio.pause();
+        audio.currentTime = 0;
     // Prevent right click menu from showing
     event.preventDefault();
     // Function to check if we are clicking on transparent region, if we are, return so do nothing
     if (isTransparent(event, element)){
         return false;
     }
-    alert('rightClicked');
+	else{
+		//play trump "WE NEED TO BuILD A WaLl
+		var audio = document.querySelector('#BuildWall');
+        audio.pause();
+        audio.currentTime = 0;
+        audio.play();
+		
+		document.querySelector('#brick').classList.add('animatedropDown');document.querySelector('#brick').classList.add('animatedropDown');
+		sleep(500).then(() => {
+			document.querySelector('#brick2').classList.add('animatedropDown');document.querySelector('#brick2').classList.add('animatedropDown');
+});
+	sleep(1000).then(() => {
+			document.querySelector('#brick3').classList.add('animatedropDown');document.querySelector('#brick3').classList.add('animatedropDown');
+});
+	sleep(1500).then(() => {
+			document.querySelector('#brick4').classList.add('animatedropDown');document.querySelector('#brick4').classList.add('animatedropDown');
+});
+	sleep(2000).then(() => {
+			document.querySelector('#brick5').classList.add('animatedropDown');document.querySelector('#brick5').classList.add('animatedropDown');
+});
+	sleep(2500).then(() => {
+			document.querySelector('#brick6').classList.add('animatedropDown');document.querySelector('#brick6').classList.add('animatedropDown');
+});
+	sleep(3000).then(() => {
+			document.querySelector('#brick7').classList.add('animatedropDown');document.querySelector('#brick7').classList.add('animatedropDown');
+});
+	sleep(3500).then(() => {
+			document.querySelector('#brick8').classList.add('animatedropDown');document.querySelector('#brick8').classList.add('animatedropDown');
+});	
+	sleep(4000).then(() => {
+			document.querySelector('#brick9').classList.add('animatedropDown');document.querySelector('#brick9').classList.add('animatedropDown');
+});
+	sleep(4500).then(() => {
+			document.querySelector('#brick10').classList.add('animatedropDown');document.querySelector('#brick10').classList.add('animatedropDown');
+});
+	sleep(5000).then(() => {
+			document.querySelector('#brick11').classList.add('animatedropDown');document.querySelector('#brick11').classList.add('animatedropDown');
+});
+	sleep(5500).then(() => {
+			document.querySelector('#brick12').classList.add('animatedropDown');document.querySelector('#brick12').classList.add('animatedropDown');
+});
+	sleep(11500).then(() => {
+		//break down the wall.....
+		document.querySelector('#brick').classList.add('animatedropFurther');
+		document.querySelector('#brick2').classList.add('animatedropFurther');
+		document.querySelector('#brick3').classList.add('animatedropFurther');
+		document.querySelector('#brick4').classList.add('animatedropFurther');
+		document.querySelector('#brick5').classList.add('animatedropFurther');
+		document.querySelector('#brick6').classList.add('animatedropFurther');
+		document.querySelector('#brick7').classList.add('animatedropFurther');
+		document.querySelector('#brick8').classList.add('animatedropFurther');
+		document.querySelector('#brick9').classList.add('animatedropFurther');
+		document.querySelector('#brick10').classList.add('animatedropFurther');
+		document.querySelector('#brick11').classList.add('animatedropFurther');
+		document.querySelector('#brick12').classList.add('animatedropFurther');
+		audio.pause();
+		audio.currentTime = 0;
+		functionIsRunning = false;
+	    idleTimer = setTimeout(()=>{idleTrump()}, idleTimeout);
+	});
+	 
+	}
 }
+// sleep time expects milliseconds
+function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+//sleep function used in rightclick for wall animation 
 
 // Left Click function
 function clicked(event, element){
