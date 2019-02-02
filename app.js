@@ -84,7 +84,11 @@ function clicked(){
     // If click count is less than 6, we toggle the animation for the birds
     if (clickCount < 6) {
         // Play Tweet Sounds
-        document.querySelector('#tweet').play();
+        var audio = document.querySelector('#tweet');
+        audio.pause();
+        audio.currentTime = 0;
+        audio.play();
+        
         // Toggle animation classes
         document.querySelector('#birdRight').classList.toggle('animateFlyRight');
         document.querySelector('#birdLeft').classList.toggle('animateFlyLeft');
