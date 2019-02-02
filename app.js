@@ -40,24 +40,52 @@ function normalTrump(){
     document.querySelector('#trump').src = 'assets/Trump_Button_V2.png';
 }
 
+// Function to style cursor depending if we are on PNG
+function styleCursor(event, element){
+    // If mouse positon on transparent part, style with default, else pointer
+    if (isTransparent(event, element)){
+        element.style.cursor = 'default';
+    }else{
+        element.style.cursor = 'pointer';
+    }
+}
+
 // Hover Function
-function hoverTrump(){
+function hoverTrump(event, element){
+    // Function to check if we are clicking on transparent region, if we are, return so do nothing
+    if (isTransparent(event, element)){
+        return false;
+    }
     console.log(new Date());
 }
 
 //UnHover Function
-function unHoverTrump(){
+function unHoverTrump(event, element){
+    // Function to check if we are clicking on transparent region, if we are, return so do nothing
+    if (isTransparent(event, element)){
+        return false;
+    }
     console.log('WHat');
 }
 
 //Right Click function
-function rightClick(event){
+function rightClick(event, element){
+    // Prevent right click menu from showing
     event.preventDefault();
+    // Function to check if we are clicking on transparent region, if we are, return so do nothing
+    if (isTransparent(event, element)){
+        return false;
+    }
     alert('hi');
 }
 
 // Left Click function
-function clicked(){
+function clicked(event, element){
+    // Function to check if we are clicking on transparent region, if we are, return so do nothing
+    if (isTransparent(event, element)){
+        return false;
+    }
+    
     // Change to normal trump
     normalTrump();
 
@@ -111,6 +139,27 @@ function decreaseOpacity(){
         clickCount--;
 }
 
+// Function to check transparency
+// Takes in an item and event
+function isTransparent(event, item){
+    var ctx = document.createElement("canvas").getContext("2d");
+
+    // Get click coordinates
+    var x = event.pageX - item.offsetLeft,
+        y = event.pageY - item.offsetTop,
+        w = ctx.canvas.width = item.width,
+        h = ctx.canvas.height = item.height,
+        alpha;
+
+    // Draw image to canvas
+    // and read Alpha channel value
+    ctx.drawImage(item, 0, 0, w, h);
+    alpha = ctx.getImageData(x, y, 1, 1).data[3]; // [0]R [1]G [2]B [3]A
+    // If pixel is transparent,
+    // retrieve the element underneath and trigger it's click event
+
+    return alpha === 0 ? true : false;
+}
 
 //Execution Begins here
 
