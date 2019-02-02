@@ -12,12 +12,17 @@
 
 <body onload="updateTime()">
 
-<audio id="tweet" src="assets/Twitter_V3.mp3"></audio>
-<img id="trump" onclick="clicked()" oncontextmenu="rightClick(event)" onmouseover="hoverTrump()" onmouseout="unHoverTrump()" src="assets/Trump_Button_V2.png">
-<img id="red" src="assets/Red_Button_V2.png">
-<img id="birdRight" src="assets/birdRight.png">
-<img id="birdLeft" src="assets/birdLeft.png">
-<div id='clock'></div>
+    <audio id="tweet" src="assets/Twitter_V3.mp3"></audio>
+    <img id="trump" src="assets/Trump_Button_V2.png"
+                        onclick="clicked(event,this)" 
+                        oncontextmenu="rightClick(event,this)" 
+                        onmouseover="hoverTrump(event,this)" 
+                        onmouseout="unHoverTrump(event,this)"
+                        onmousemove="styleCursor(event,this)">
+    <img id="red" src="assets/Red_Button_V2.png">
+    <img id="birdRight" src="assets/birdRight.png">
+    <img id="birdLeft" src="assets/birdLeft.png">
+    <div id='clock'></div>
 
 </body>
 
