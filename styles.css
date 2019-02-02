@@ -1,93 +1,95 @@
 
-
-/* Change background image and other properties here */
-body {
-    /* Image Source */
-    background-image: url("assets/American-Flag.jpg");
-
-    background-color: #cccccc;
-    background-repeat:no-repeat;
-    background-size:cover;
-
-    background-color: rgba(255, 255, 255, 0.4);
-    background-blend-mode: lighten;
-
+/* Defining Font Family For Digital Clock */
+@font-face {
+    font-family: digital;
+    src: url('assets/digital-7.ttf');
 }
 
+/* Body Background Color */
+body{
+    background-color: lightblue;
+}
 
-/* Project one image on top of another */
-.parent {
-    position: relative;
-    top: 0;
-    left: 0;
-}
-.image1 {
-    position: relative;
-    top: 0;
-    left: 0;
-}
-.image2 {
+/* Trump and Red Circle Styling */
+#trump, #red{
     position: absolute;
-    top: 0px;
-    left: 0px;
+    width: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
 }
 
-
-/* Icon Drop */
-@-webkit-keyframes hvr-icon-drop {
-    0% {
-        opacity: 0;
-    }
-    50% {
-        opacity: 0;
-        -webkit-transform: translateY(-100%);
-        transform: translateY(-100%);
-    }
-    51%,
-    100% {
-        opacity: 1;
-    }
-}
-@keyframes hvr-icon-drop {
-    0% {
-        opacity: 0;
-    }
-    50% {
-        opacity: 0;
-        -webkit-transform: translateY(-100%);
-        transform: translateY(-100%);
-    }
-    51%,
-    100% {
-        opacity: 1;
-    }
-}
-/* Icon Drop */
-.hvr-icon-drop {
-    display: inline-block;
-    vertical-align: middle;
-    -webkit-transform: perspective(1px) translateZ(0);
-    transform: perspective(1px) translateZ(0);
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-}
-.hvr-icon-drop .hvr-icon {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-}
-.hvr-icon-drop:hover .hvr-icon, .hvr-icon-drop:focus .hvr-icon, .hvr-icon-drop:active .hvr-icon {
+/* Additional Red Circle Styling */
+#red{
     opacity: 0;
-    -webkit-transition-duration: 0.3s;
-    transition-duration: 0.3s;
-    -webkit-animation-name: hvr-icon-drop;
-    animation-name: hvr-icon-drop;
-    -webkit-animation-duration: 0.5s;
-    animation-duration: 0.5s;
-    -webkit-animation-delay: 0.3s;
-    animation-delay: 0.3s;
-    -webkit-animation-fill-mode: forwards;
-    animation-fill-mode: forwards;
-    -webkit-animation-timing-function: ease-in-out;
-    animation-timing-function: ease-in-out;
-    -webkit-animation-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
-    animation-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+    pointer-events: none;
+}
+
+/* Clock styling */
+#clock {
+    position: absolute;
+    width: 200px;
+    padding: 20px;
+    left: 50%;
+    top: 80%;
+    transform: translateX(-50%);
+    font-size: 4em;
+    color: white;
+    background-color: red;
+    border-top: 5px solid black;
+    font-family: digital;
+    text-align: center;
+}
+
+/* Right Bird Styling */
+#birdRight{
+    position: absolute;
+    width: 5%;
+    left: 55%;
+    top: 35%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Left Bird styling */
+#birdLeft{
+    position: absolute;
+    width: 5%;
+    left: 45%;
+    top: 35%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Animate classes to add to birds in javascript */
+.animateFlyLeft {
+    animation: flyLeft 2s both linear;
+}
+
+.animateFlyRight {
+    animation: flyRight 2s both linear;
+}
+
+/* Animation for Flying right */
+@keyframes flyRight{
+    from{
+        opacity: 1;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    to{
+        transform: translateX(100%) translateY(-100%);
+        opacity: 0;
+    }
+}
+
+/* Animation for flying left */
+@keyframes flyLeft{
+    from{
+        opacity: 1;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    to{
+        transform: translateX(-150%) translateY(-100%);
+        opacity: 0;
+    }
 }
