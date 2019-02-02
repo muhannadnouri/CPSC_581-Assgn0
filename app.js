@@ -17,6 +17,12 @@ var timeUpdateInterval = 1000;
 var totalClicks = 0;
 var clickCount = 0;
 
+// Hover Triggers. Used for only triggering once when mouse enter or leaves image
+// For ensuring one execution of hover or unhover function when mouse transition from
+// transparent part of image to button part of image
+var hoverTrigger = 0;
+var unHoverTrigger = 0;
+
 // Update Time function
 function updateTime(){
     // Function to format 0 back to timer
@@ -40,32 +46,44 @@ function normalTrump(){
     document.querySelector('#trump').src = 'assets/Trump_Button_V2.png';
 }
 
-// Function to style cursor depending if we are on PNG
-function styleCursor(event, element){
-    // If mouse positon on transparent part, style with default, else pointer
-    if (isTransparent(event, element)){
-        element.style.cursor = 'default';
-    }else{
-        element.style.cursor = 'pointer';
-    }
-}
-
 // Hover Function
-function hoverTrump(event, element){
-    // Function to check if we are clicking on transparent region, if we are, return so do nothing
-    if (isTransparent(event, element)){
-        return false;
-    }
-    console.log(new Date());
+function hoverTrump(){
+    console.log('Hovered');
 }
 
 //UnHover Function
-function unHoverTrump(event, element){
-    // Function to check if we are clicking on transparent region, if we are, return so do nothing
+function unHoverTrump(){
+    console.log('UnHovered');
+}
+
+// Function for mouse move. Does Hover and cursor styling based on transparency
+function mouseMove(event, element){
+    // If mouse positon on transparent part, style with default, else pointer
     if (isTransparent(event, element)){
-        return false;
+        // Style cursor to default since we are on transparent
+        element.style.cursor = 'default';
+        // This is to make sure that we are coming from inside element
+        // If this is satisfied, it means we are unhovering, so run unhover function
+        if (hoverTrigger !== 0){
+            hoverTrigger = 0;
+            // Run UnHover function
+            unHoverTrump();
+        }
+        // These triggers are to detect that we are in the unhover or hover state
+        unHoverTrigger++;
+    }else{
+        // Style cursor to pointer since we are on button
+        element.style.cursor = 'pointer';
+        // If unhover is not 0, it means we are coming from transparent part of image
+        // Set it to zero and run hover function.
+        if (unHoverTrigger !== 0){
+            unHoverTrigger = 0;
+            // Run Hover Function
+            hoverTrump();
+        }
+        // These triggers are to detect that we are in the unhover or hover state
+        hoverTrigger++;
     }
-    console.log('WHat');
 }
 
 //Right Click function
@@ -76,7 +94,7 @@ function rightClick(event, element){
     if (isTransparent(event, element)){
         return false;
     }
-    alert('hi');
+    alert('rightClicked');
 }
 
 // Left Click function
