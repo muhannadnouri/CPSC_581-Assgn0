@@ -17,6 +17,12 @@ var timeUpdateInterval = 1000;
 var totalClicks = 0;
 var clickCount = 0;
 
+var buildingWall = false;
+var inHoverArea = false;
+var isIdle = false;
+var isBored = true;
+
+
 // Hover Triggers. Used for only triggering once when mouse enter or leaves image
 // For ensuring one execution of hover or unhover function when mouse transition from
 // transparent part of image to button part of image
@@ -34,26 +40,45 @@ function updateTime(){
     document.querySelector('#clock').innerHTML = correctTime(time.getHours()) + ":" + correctTime(time.getMinutes()) + ":" + correctTime(time.getSeconds());
 }
 
+function playAudio(url){
+    // Cancel audio playing
+    var audio = document.querySelector('#player');
+    audio.pause();
+    audio.src = url;
+    audio.currentTime = 0;
+    audio.play();
+}
+
 // Actions if Idle
 function idleTrump(){
     // Only Swap to Cheeto trump if there is no click on Trump
-    if(clickCount == 0)
-        document.querySelector('#trump').src = 'assets/Trump_to_Cheeto_V2.gif';
+    if(clickCount == 0){
+        isIdle = true;
+        document.querySelector('#trump').src = 'assets/Cheeto_Trump_gif.gif';
+		playAudio('assets/DARTH TRUMP.mp3');
+    }
 }
 
 //Action to Revert
 function normalTrump(){
-    document.querySelector('#trump').src = 'assets/Trump_Button_V2.png';
+    document.querySelector('#trump').src = 'assets/Bored_Trump_gif.gif';
 }
 
 // Hover Function
 function hoverTrump(){
-    console.log('Hovered');
+    inHoverArea = true;
+    document.querySelector('#trump').src = 'assets/Happy_Trump_gif.gif';
 }
 
 //UnHover Function
 function unHoverTrump(){
-    console.log('UnHovered');
+    // If not Buidling Wall then we pause all audio
+    if(!buildingWall){
+        document.querySelector('#player').pause();
+    }
+    inHoverArea = false;
+    document.querySelector('#trump').src = 'assets/Bored_Trump_gif.gif';
+
 }
 
 // Function for mouse move. Does Hover and cursor styling based on transparency
@@ -68,6 +93,7 @@ function mouseMove(event, element){
             hoverTrigger = 0;
             // Run UnHover function
             unHoverTrump();
+            isBored = true;
         }
         // These triggers are to detect that we are in the unhover or hover state
         unHoverTrigger++;
@@ -79,33 +105,82 @@ function mouseMove(event, element){
         if (unHoverTrigger !== 0){
             unHoverTrigger = 0;
             // Run Hover Function
+            isBored = false;
             hoverTrump();
         }
         // These triggers are to detect that we are in the unhover or hover state
         hoverTrigger++;
+
+        // Checked when recovering from idle on the button
+        if(isIdle){
+            // Hover is angry trump, If mouse move on element after idle, we turn to angry, simulating mouse hover.
+            hoverTrump();
+            isIdle = false;
+        }
     }
 }
 
 //Right Click function
 function rightClick(event, element){
+    // If wall is already building, don't do it again until its removed
+    if (buildingWall){
+        return false;
+    }
+    // Set Buidling Wall Flag to True
+    buildingWall = true;
+    
     // Prevent right click menu from showing
     event.preventDefault();
     // Function to check if we are clicking on transparent region, if we are, return so do nothing
     if (isTransparent(event, element)){
         return false;
     }
-    alert('rightClicked');
+	else{
+		//play trump "WE NEED TO BuILD A WaLl
+        playAudio('assets/BuildWall.mp3');
+        
+        // Going through each brick and setting a delay to animating
+        document.querySelectorAll('.brick').forEach((brick, i) => {
+            setTimeout(()=>{
+                brick.classList.add('animatedropDown');
+            }, i * 500);
+        });
+        
+        //break down the wall after animation
+        setTimeout(() => {
+            // Adding Animte Drop Further
+            document.querySelectorAll('.brick').forEach(brick => {
+                brick.classList.add('animatedropFurther');
+            });
+        }, 11500);
+
+        // Removing all class list and clean up so that wall can be built again
+        setTimeout(() => {
+            // Removing the class list so that we can reanimate building wall
+            document.querySelectorAll('.brick').forEach(brick => {
+                brick.classList.remove('animatedropFurther', 'animatedropDown');
+            });
+            
+            // Stopping Audio
+            document.querySelector('#player').pause();
+            buildingWall = false;
+            // Reseting the timer
+            idleTimer = setTimeout(()=>{idleTrump()}, idleTimeout);
+        }, 12000);
+	 
+	}
 }
 
 // Left Click function
 function clicked(event, element){
-    // Function to check if we are clicking on transparent region, if we are, return so do nothing
-    if (isTransparent(event, element)){
+    // Function to check if we are clicking on transparent region or wall is being build,
+    // if we are, return so do nothing
+    if (buildingWall || isTransparent(event, element)){
         return false;
     }
     
-    // Change to normal trump
-    normalTrump();
+    // Change to normal trump, changed to Angry trump with hover
+    document.querySelector('#trump').src = 'assets/Angry_Trump_gif.gif';
 
     // Clear the timer for Idle when clicked as we don't want timer for cheeto trump
     clearTimeout(idleTimer);
@@ -130,15 +205,18 @@ function clicked(event, element){
     // If click count is less than 6, we toggle the animation for the birds
     if (clickCount < 6) {
         // Play Tweet Sounds
-        var audio = document.querySelector('#tweet');
-        audio.pause();
-        audio.currentTime = 0;
-        audio.play();
+        playAudio('assets/Twitter_V3.mp3');
         
         // Toggle animation classes
         document.querySelector('#birdRight').classList.toggle('animateFlyRight');
         document.querySelector('#birdLeft').classList.toggle('animateFlyLeft');
         clickCount++;
+    }else{
+        // If not Buidling Wall then play audio
+        if(!buildingWall)
+        {
+            playAudio('assets/ilovechina.mp3');
+        }
     }
 
     // Based on the click count, we turn up the opacity of the red circle
@@ -182,14 +260,26 @@ function isTransparent(event, item){
 //Execution Begins here
 
 //Start Updating the time
-setInterval(()=>{updateTime();}, timeUpdateInterval);
+// setInterval(()=>{updateTime();}, timeUpdateInterval);
 
 // Speed at which Trump Coolsdown
 var cooldown = setInterval(() => {decreaseOpacity();},cooldownInterval);
 
 // When mouse moves, change to normal trump, clear idle timer, and set back idle timer in case mouse no longer moves
 window.onmousemove = () => {
-    normalTrump();
+    // If we are not in hover area, then we change to normal trump, otherwise we want to stay angry
+    if (!inHoverArea){
+        // Not in hover area, change to normal trump
+        if (!isBored){
+            normalTrump();
+        }
+        // If we are recovering from idle, stop audio clip
+        if (isIdle){
+            document.querySelector('#player').pause();
+            isIdle = false;
+
+        }
+    }
     clearTimeout(idleTimer);
     idleTimer = setTimeout(()=>{idleTrump()}, idleTimeout);
 }
