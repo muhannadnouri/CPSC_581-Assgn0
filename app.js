@@ -65,7 +65,6 @@ function normalTrump(){
 
 // Hover Function
 function hoverTrump(){
-    console.log('Hovered');
     // If not Buidling Wall then play audio
     if(!buildingWall)
     {
@@ -77,7 +76,6 @@ function hoverTrump(){
 
 //UnHover Function
 function unHoverTrump(){
-    console.log('UnHovered');
     // If not Buidling Wall then we pause all audio
     if(!buildingWall){
         document.querySelector('#player').pause();
@@ -177,8 +175,9 @@ function rightClick(event, element){
 
 // Left Click function
 function clicked(event, element){
-    // Function to check if we are clicking on transparent region, if we are, return so do nothing
-    if (isTransparent(event, element)){
+    // Function to check if we are clicking on transparent region or wall is being build,
+    // if we are, return so do nothing
+    if (buildingWall || isTransparent(event, element)){
         return false;
     }
     
