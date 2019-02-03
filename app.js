@@ -20,6 +20,7 @@ var clickCount = 0;
 var buildingWall = false;
 var inHoverArea = false;
 var isIdle = false;
+var isBored = true;
 
 
 // Hover Triggers. Used for only triggering once when mouse enter or leaves image
@@ -65,13 +66,8 @@ function normalTrump(){
 
 // Hover Function
 function hoverTrump(){
-    // If not Buidling Wall then play audio
-    if(!buildingWall)
-    {
-        playAudio('assets/ilovechina.mp3');
-    }
     inHoverArea = true;
-    document.querySelector('#trump').src = 'assets/Angry_Trump_gif.gif';
+    document.querySelector('#trump').src = 'assets/Happy_Trump_gif.gif';
 }
 
 //UnHover Function
@@ -97,6 +93,7 @@ function mouseMove(event, element){
             hoverTrigger = 0;
             // Run UnHover function
             unHoverTrump();
+            isBored = true;
         }
         // These triggers are to detect that we are in the unhover or hover state
         unHoverTrigger++;
@@ -108,6 +105,7 @@ function mouseMove(event, element){
         if (unHoverTrigger !== 0){
             unHoverTrigger = 0;
             // Run Hover Function
+            isBored = false;
             hoverTrump();
         }
         // These triggers are to detect that we are in the unhover or hover state
@@ -182,7 +180,7 @@ function clicked(event, element){
     }
     
     // Change to normal trump, changed to Angry trump with hover
-    hoverTrump();
+    document.querySelector('#trump').src = 'assets/Angry_Trump_gif.gif';
 
     // Clear the timer for Idle when clicked as we don't want timer for cheeto trump
     clearTimeout(idleTimer);
@@ -213,6 +211,12 @@ function clicked(event, element){
         document.querySelector('#birdRight').classList.toggle('animateFlyRight');
         document.querySelector('#birdLeft').classList.toggle('animateFlyLeft');
         clickCount++;
+    }else{
+        // If not Buidling Wall then play audio
+        if(!buildingWall)
+        {
+            playAudio('assets/ilovechina.mp3');
+        }
     }
 
     // Based on the click count, we turn up the opacity of the red circle
@@ -256,7 +260,7 @@ function isTransparent(event, item){
 //Execution Begins here
 
 //Start Updating the time
-setInterval(()=>{updateTime();}, timeUpdateInterval);
+// setInterval(()=>{updateTime();}, timeUpdateInterval);
 
 // Speed at which Trump Coolsdown
 var cooldown = setInterval(() => {decreaseOpacity();},cooldownInterval);
@@ -266,7 +270,9 @@ window.onmousemove = () => {
     // If we are not in hover area, then we change to normal trump, otherwise we want to stay angry
     if (!inHoverArea){
         // Not in hover area, change to normal trump
-        normalTrump();
+        if (!isBored){
+            normalTrump();
+        }
         // If we are recovering from idle, stop audio clip
         if (isIdle){
             document.querySelector('#player').pause();
