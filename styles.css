@@ -23,13 +23,14 @@ html, body{
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.8);
+	font-family: 'Roboto Condensed', sans-serif;
 }
 
 #startScreen > div{
 	pointer-events: none;
 	background-color: white;
 	padding: 30px;
-	border: 15px solid green;
+	border: 15px solid #aec6cf;
 	border-radius: 15%;
 	top: 20%;
 	width: 25%;
