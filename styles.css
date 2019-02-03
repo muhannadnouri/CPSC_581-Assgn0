@@ -39,7 +39,7 @@ html, body{
 }
 
 /* Trump and Red Circle Styling */
-#trump, #red{
+.trump, #red{
     position: absolute;
     width: 50%;
     top:0;
@@ -48,6 +48,14 @@ html, body{
     bottom:0;
     margin: auto;
     user-select: none;
+}
+
+.trump{
+	display: none;
+}
+
+#bored {
+	display: block;
 }
 
 /* Additional Red Circle Styling */

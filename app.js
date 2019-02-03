@@ -1,4 +1,10 @@
+// Audio
+var tweetAudio = new Audio('assets/Twitter_V3.mp3');
+var wallAudio = new Audio('assets/BuildWall.mp3');
+var chinaAudio = new Audio('assets/ilovechina.mp3');
+var cheetoAudio = new Audio('assets/DARTH TRUMP.mp3');
 
+var audioTracks = [tweetAudio, wallAudio, chinaAudio, cheetoAudio];
 
 // Timers for javascript
 var clickTimer;
@@ -40,13 +46,20 @@ function updateTime(){
     document.querySelector('#clock').innerHTML = correctTime(time.getHours()) + ":" + correctTime(time.getMinutes()) + ":" + correctTime(time.getSeconds());
 }
 
-function playAudio(url){
+function playAudio(sound){
     // Cancel audio playing
-    var audio = document.querySelector('#player');
-    audio.pause();
-    audio.src = url;
-    audio.currentTime = 0;
-    audio.play();
+    // var audio = document.querySelector('#player');
+    // audio.pause();
+    // audio.src = url;
+    // audio.currentTime = 0;
+    // audio.play();
+    audioTracks.forEach(audio => {
+        audio.pause();
+        audio.currentTime = 0;
+    });
+    if (sound){
+        sound.play();
+    }
 }
 
 // Actions if Idle
@@ -54,31 +67,37 @@ function idleTrump(){
     // Only Swap to Cheeto trump if there is no click on Trump
     if(clickCount == 0){
         isIdle = true;
-        document.querySelector('#trump').src = 'assets/Cheeto_Trump_gif.gif';
-		playAudio('assets/DARTH TRUMP.mp3');
+        // document.querySelector('#trump').src = 'assets/Cheeto_Trump_gif.gif';
+        swtichTrump('cheeto');
+        playAudio(cheetoAudio);
     }
 }
 
 //Action to Revert
-function normalTrump(){
-    document.querySelector('#trump').src = 'assets/Bored_Trump_gif.gif';
+function swtichTrump(state){
+    document.querySelectorAll('.trump').forEach(img => {
+        img.style.display = 'none';
+    });
+    document.querySelector(`#${state}`).style.display = 'block';
 }
 
 // Hover Function
 function hoverTrump(){
     inHoverArea = true;
-    document.querySelector('#trump').src = 'assets/Happy_Trump_gif.gif';
+    // document.querySelector('#trump').src = 'assets/Happy_Trump_gif.gif';
+    swtichTrump('happy');
 }
 
 //UnHover Function
 function unHoverTrump(){
     // If not Buidling Wall then we pause all audio
     if(!buildingWall){
-        document.querySelector('#player').pause();
+        // document.querySelector('#player').pause();
+        playAudio(false);
     }
     inHoverArea = false;
-    document.querySelector('#trump').src = 'assets/Bored_Trump_gif.gif';
-
+    // document.querySelector('#trump').src = 'assets/Bored_Trump_gif.gif';
+    swtichTrump('bored');
 }
 
 // Function for mouse move. Does Hover and cursor styling based on transparency
@@ -137,7 +156,7 @@ function rightClick(event, element){
     }
 	else{
 		//play trump "WE NEED TO BuILD A WaLl
-        playAudio('assets/BuildWall.mp3');
+        playAudio(wallAudio);
         
         // Going through each brick and setting a delay to animating
         document.querySelectorAll('.brick').forEach((brick, i) => {
@@ -162,7 +181,8 @@ function rightClick(event, element){
             });
             
             // Stopping Audio
-            document.querySelector('#player').pause();
+            // document.querySelector('#player').pause();
+            playAudio(false);
             buildingWall = false;
             // Reseting the timer
             idleTimer = setTimeout(()=>{idleTrump()}, idleTimeout);
@@ -180,7 +200,7 @@ function clicked(event, element){
     }
     
     // Change to normal trump, changed to Angry trump with hover
-    document.querySelector('#trump').src = 'assets/Angry_Trump_gif.gif';
+    swtichTrump('angry');
 
     // Clear the timer for Idle when clicked as we don't want timer for cheeto trump
     clearTimeout(idleTimer);
@@ -205,7 +225,7 @@ function clicked(event, element){
     // If click count is less than 6, we toggle the animation for the birds
     if (clickCount < 6) {
         // Play Tweet Sounds
-        playAudio('assets/Twitter_V3.mp3');
+        playAudio(tweetAudio);
         
         // Toggle animation classes
         document.querySelector('#birdRight').classList.toggle('animateFlyRight');
@@ -215,7 +235,7 @@ function clicked(event, element){
         // If not Buidling Wall then play audio
         if(!buildingWall)
         {
-            playAudio('assets/ilovechina.mp3');
+            playAudio(chinaAudio);
         }
     }
 
@@ -271,11 +291,12 @@ window.onmousemove = () => {
     if (!inHoverArea){
         // Not in hover area, change to normal trump
         if (!isBored){
-            normalTrump();
+            swtichTrump('bored');;
         }
         // If we are recovering from idle, stop audio clip
         if (isIdle){
-            document.querySelector('#player').pause();
+            // document.querySelector('#player').pause();
+            playAudio(false);
             isIdle = false;
 
         }
