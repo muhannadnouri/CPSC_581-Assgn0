@@ -50,6 +50,7 @@ html, body{
     user-select: none;
 }
 
+/* Remove all trump on start except bored */
 .trump{
 	display: none;
 }
@@ -101,6 +102,7 @@ html, body{
     pointer-events: none;
 }
 
+/* Container to hold all walls */
 #wallContainer{
 	pointer-events: none;
 	left: 50%;
@@ -111,8 +113,9 @@ html, body{
 	height: 560px;
 }
 
+/* Styling bricks */
 .brick{
-	pointer-events: none;
+	pointer-events: inherit;
 	opacity: 0;
 	position: absolute;
 }
@@ -206,6 +209,8 @@ html, body{
         opacity: 0;
     }
 }
+
+/* Animation for Wall build and destruction */
 @keyframes dropDown{
 	from{
 		opacity: 0;

@@ -47,12 +47,7 @@ function updateTime(){
 }
 
 function playAudio(sound){
-    // Cancel audio playing
-    // var audio = document.querySelector('#player');
-    // audio.pause();
-    // audio.src = url;
-    // audio.currentTime = 0;
-    // audio.play();
+    //Pausing all Audio
     audioTracks.forEach(audio => {
         audio.pause();
         audio.currentTime = 0;
@@ -75,9 +70,11 @@ function idleTrump(){
 
 //Action to Revert
 function swtichTrump(state){
+    // Setting all Trump to be gone
     document.querySelectorAll('.trump').forEach(img => {
         img.style.display = 'none';
     });
+    // Re-applying trump we need
     document.querySelector(`#${state}`).style.display = 'block';
 }
 
@@ -92,11 +89,9 @@ function hoverTrump(){
 function unHoverTrump(){
     // If not Buidling Wall then we pause all audio
     if(!buildingWall){
-        // document.querySelector('#player').pause();
         playAudio(false);
     }
     inHoverArea = false;
-    // document.querySelector('#trump').src = 'assets/Bored_Trump_gif.gif';
     swtichTrump('bored');
 }
 
@@ -181,7 +176,6 @@ function rightClick(event, element){
             });
             
             // Stopping Audio
-            // document.querySelector('#player').pause();
             playAudio(false);
             buildingWall = false;
             // Reseting the timer
@@ -295,10 +289,9 @@ window.onmousemove = () => {
         }
         // If we are recovering from idle, stop audio clip
         if (isIdle){
-            // document.querySelector('#player').pause();
             playAudio(false);
             isIdle = false;
-
+            swtichTrump('bored');
         }
     }
     clearTimeout(idleTimer);
