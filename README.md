@@ -11,6 +11,11 @@ Interactions with the button itself can be classified into three different categ
 
 Left Clicking on Trump himself angers the president, causing him to send out miniature tweets and slowly become angrier, shown by a gradual red tinge that builds upon successive clicks, and slowly fades with a lack of interaction. Right clicking on him reverts trump to a more defensive posture, slowly building a wall of bricks between him and the user.
 
+# Video Demo
+
+<center>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/Afbi6-c6D5s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center>
 
 # License
 No license yet
